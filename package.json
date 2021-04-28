@@ -1,0 +1,20 @@
+{
+  "name": "ci-test",
+  "version": "1.0.0",
+  "description": "all about learning CI & Unit tests",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "testing",
+    "Continuous",
+    "integration",
+    "CI"
+  ],
+  "author": "Jean-Louis",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
