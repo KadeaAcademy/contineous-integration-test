@@ -32,7 +32,8 @@ jobs:
 workflows:
   all-tests:
     jobs:
-      - test:
-          matrix:
-            parameters:
-              node-version: ["13.9.0"]
+      - test
+      # - test:
+      #     matrix:
+      #       parameters:
+      #         node-version: ["13.9.0"]
