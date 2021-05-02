@@ -18,7 +18,6 @@ jobs:
       - checkout
       - node/install:
           node-version: << parameters.node-version >>
-          # install-yarn: true
       - run:
           name: Install dependencies
           command: npm install
@@ -32,8 +31,7 @@ jobs:
 workflows:
   all-tests:
     jobs:
-      - test
-      # - test:
-      #     matrix:
-      #       parameters:
-      #         node-version: ["13.9.0"]
+      - test:
+          matrix:
+            parameters:
+              node-version: ["13.9.0"]
