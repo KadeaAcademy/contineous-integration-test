@@ -3,8 +3,7 @@ version: 2.1
 executors:
   linux:
     docker:
-      - image: cimg/base:2020.01
-
+      - image: cimg/base:stable
 orbs:
   node: circleci/node@3.0.0
 
@@ -17,7 +16,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: << parameters.node-version >>
+          node-version: "14.5.0"
       - run:
           name: Install dependencies
           command: npm install
@@ -31,7 +30,4 @@ jobs:
 workflows:
   all-tests:
     jobs:
-      - test:
-          matrix:
-            parameters:
-              node-version: ["13.9.0"]
+      - test
