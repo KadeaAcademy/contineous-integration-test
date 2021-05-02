@@ -1,7 +1,30 @@
 version: 2.1
+
+executors:
+  linux:
+    docker:
+      - image: cimg/base:stable
 orbs:
   node: circleci/node@3.0.0
+
+jobs:
+  test:
+    executor: linux
+    steps:
+      - checkout
+      - node/install:
+          node-version: "14.5.0"
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests and collect coverage
+          command: npm run test
+      - run:
+          name: Upload coverage reports to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -F $CIRCLE_JOB
+
 workflows:
-  node-tests:
+  all-tests:
     jobs:
-      - node/test
+      - test
