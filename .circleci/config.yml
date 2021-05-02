@@ -1,7 +1,38 @@
 version: 2.1
+
+executors:
+  linux:
+    docker:
+      - image: cimg/base:2020.01
+
 orbs:
   node: circleci/node@3.0.0
+
+jobs:
+  test:
+    parameters:
+      node-version:
+        type: string
+    executor: linux
+    steps:
+      - checkout
+      - node/install:
+          node-version: << parameters.node-version >>
+          # install-yarn: true
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests and collect coverage
+          command: npm run test
+      - run:
+          name: Upload coverage reports to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -F $CIRCLE_JOB
+
 workflows:
-  node-tests:
+  all-tests:
     jobs:
-      - node/test
+      - test:
+          matrix:
+            parameters:
+              node-version: ["10.9.0", "11.9.0", "12.9.1", "13.9.0"]
