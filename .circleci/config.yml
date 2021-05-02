@@ -9,9 +9,6 @@ orbs:
 
 jobs:
   test:
-    parameters:
-      node-version:
-        type: string
     executor: linux
     steps:
       - checkout
