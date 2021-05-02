@@ -7,7 +7,7 @@ function product(a, b) {
 }
 
 function rms(a, b) {
-  return Math.sqrt((a ** 2 * b ** 2) / 2);
+  return Math.sqrt((a ** 2 + b ** 2) / 2);
 }
 
-module.exports = { sum: sum, product: product };
+module.exports = { sum: sum, product: product, rms: rms };
