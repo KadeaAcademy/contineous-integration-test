@@ -11,7 +11,7 @@ function rms(a, b) {
 }
 
 function minus(a, b) {
-  return a - b + 1;
+  return a - b;
 }
 
 module.exports = { sum: sum, product: product, rms: rms, minus: minus };
