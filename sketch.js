@@ -10,4 +10,8 @@ function rms(a, b) {
   return Math.sqrt((a ** 2 + b ** 2) / 2);
 }
 
-module.exports = { sum: sum, product: product, rms: rms };
+function minus(a, b) {
+  return a - b;
+}
+
+module.exports = { sum: sum, product: product, rms: rms, minus: minus };
