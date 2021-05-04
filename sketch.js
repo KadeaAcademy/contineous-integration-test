@@ -14,4 +14,4 @@ function minus(a, b) {
   return a - b + 1;
 }
 
-module.exports = { sum: sum, product: product, rms: rms };
+module.exports = { sum: sum, product: product, rms: rms, minus: minus };
