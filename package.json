@@ -6,10 +6,10 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "test": "jest --coverage",
-    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|ts|tsx|json)\"",
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "validate": "npm-run-all --parallel check-format lint build",
     "husky-install": "husky install"
   },

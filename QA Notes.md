@@ -20,12 +20,15 @@ Add the following scripts to your project `package.json`:
 
 ```json
 {
-  ...,
-  "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
-  "format": "npm run prettier -- --write",
-  "check-format": "npm run prettier -- --list-different",
-  "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-  "validate": "npm-run-all --parallel check-format lint"
+    ...,
+    "build": "babel src --out-dir dist",
+    "test": "jest --coverage",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|ts|tsx|json)\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
+    "validate": "npm-run-all --parallel check-format lint build",
+    "husky-install": "husky install"
 }
 ```
 
@@ -108,3 +111,5 @@ npx husky add .husky/pre-commit "npm run validate"
 ## Lintstaged
 
 See `.lintstagedrc`
+
+In case we don't have an editor that has an integrated format on save functionality with Prettier, we can use a tool call Lintstaged to rewrite our files before a commit.
