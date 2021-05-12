@@ -10,7 +10,8 @@
     "format": "npm run prettier -- --write",
     "check-format": "npm run prettier -- --list-different",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "validate": "npm-run-all --parallel check-format lint build"
+    "validate": "npm-run-all --parallel check-format lint build",
+    "husky-install": "husky install"
   },
   "keywords": [
     "testing",

@@ -87,21 +87,23 @@ It would be good to run this script everytime before somebody commits any code t
 
 For that matter:
 
-1. we install a package called `Husky`.
-2. List the files in `.git/hooks/`
-3. Rename `.git/hooks/pre-commit.sample` -> `.git/hooks/pre-commit`:
+1. we install a package called `husky`.
+2. Add a "husky-install" script to your `package.json`
 
-```shell
-cp .git/hooks/pre-commit.sample .git/hooks/pre-commit
+```json
+"script": {
+  ...,
+  "husky-install": "husky install,
+  ...
+}
 ```
 
--or-
+3. Run `npm run husky-install`
+4. Add a pre-commit hook
 
-```shell
-mv .git/hooks/pre-commit.sample .git/hooks/pre-commit
 ```
-
-4. Create a Husky configuration file (`.huskyrc`) give it the script to run before every commit (See the file): In this case, it's the validate script.
+npx husky add .husky/pre-commit "npm run validate"
+```
 
 ## Lintstaged
 
