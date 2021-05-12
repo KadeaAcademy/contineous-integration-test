@@ -1,4 +1,4 @@
-const { sum, product, rms, minus } = require("./sketch");
+import { sum, product, rms, minus } from "./src/sketch";
 
 test("adds 1 + 2 to equal 3", () => {
   expect(sum(1, 2)).toBe(3);
