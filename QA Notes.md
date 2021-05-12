@@ -108,8 +108,16 @@ For that matter:
 npx husky add .husky/pre-commit "npm run validate"
 ```
 
-## Lintstaged
+### Lintstaged
 
 See `.lintstagedrc`
 
-In case we don't have an editor that has an integrated format on save functionality with Prettier, we can use a tool call Lintstaged to rewrite our files before a commit.
+In case we don't have an editor with an integrated format on save functionality, we can use a tool called Lintstaged to rewrite our files before a commit.
+
+Simply add `lintstaged` into the precommit command and configure it with a `.lintstagedrc`.
+
+## Jest
+
+- Install Jest through NPM or Yarn
+- Add a test script
+- Update the validate script to also run the test script
