@@ -1,0 +1,35 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "jest"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-prettier"
+  ],
+  "rules": {
+    "strict": [ "error", "never"]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js",
+        "**/*.test.jsx",
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+  "env": {
+    "browser": true
+  }
+}
