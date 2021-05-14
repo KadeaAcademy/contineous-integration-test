@@ -1,7 +1,3 @@
----
-marp: false
----
-
 # Testing
 
 ## Static Testing
@@ -10,13 +6,13 @@ marp: false
 
 Install the dependencies with:
 
-```shell
+```console
 npm install --save-dev eslint eslint-config-prettier husky lint-staged npm-run-all prettier eslint-plugin-jest @babel/preset-env
 ```
 
 ### Scripts
 
-Add the following scripts to your project `package.json`:
+Add the following scripts to your project [`package.json`](package.json):
 
 ```json
 {
@@ -34,64 +30,70 @@ Add the following scripts to your project `package.json`:
 
 ### Babel
 
-See `.babelrc`
+See [`.babelrc`](.babelrc)
 
-We configure Babel to specify the version of Javascript we would like to work with.
+We configure [Babel](https://babeljs.io/docs/en/) to specify the version of Javascript we would like to work with.
 
 ### ESlint
 
-See `.eslintrc`
+See [`.eslintrc`](.eslintrc)
 
-We install ESLint with NPM or Yarn as a dev dependency (see [###-Dev-Dependencies](Dev Dependencies)).
+We install [ESLint](https://eslint.org/) with NPM or Yarn as a dev dependency (see [Dev Dependencies](###dev-dependencies)).
 
 The default configuration for ESLint is that they are going to parse your files as if they are Ecmascript 5. However, our file are written in the latest version of JS. Therefore, we need configure ESLint to parse our files properly.
 
-In summary, we specify configure ESlint on:
+In summary, we configure ESlint on:
 
-- the type of Javascript it's going to parse
-- the ESLint built-in recommended rules configuration (`"extends":`) and specify/override some of them in `"rules":`
-- the environment where the javascript is going to run
-- etc.
+1. the type of Javascript it's going to parse
+2. the ESLint built-in recommended rules configuration (`"extends":`) and specify/override some of them in `"rules":`
+3. the environment where the javascript is going to run
 
 Tool configuration:
 
-- Install ESlint on your tool e.g. VSCode (it gives you highligh and fixes options)
-- You can also get auto fixes by running the following command:
+1. Install ESlint on your tool e.g. VSCode (it gives you highlights and fixes options)
+2. You can also get auto fixes by running the following command:
 
-```shell
+```console
 npx eslint . --fix
 ```
 
 #### Prettier
 
-We use `Prettier` to format our code.
+We use [`Prettier`](https://prettier.io/) to format our code.
 
-We install it as a dev dependency
+We install it as a dev dependency (see [Dev Dependencies](###dev-dependencies)).
 
-We add into our `.eslintrc` the recommended config (`eslint-config-prettier`) when using prettier alonside in order to avoid conflict between both of them (ESLint & Prettier).
+We add to our [`.eslintrc`](.eslintrc) the recommended config(`eslint-config-prettier`) when using ESLint alonside Pretter. This is to avoid conflicts.
 
 See the `prettier`, `format` & `check-format` scripts.
 
-If we want to add a specific configuration for pretter, we can add a `.prettierrc` file to our code base.
+If we want to add a specific configuration for pretter, we could add a `.prettierrc` file to our code base.
 
-We also configure our tool (e.g. VScode) plugin. Important configuration is:
+We also configure our tool's plugin. For VSCode, the important steps & configurations are:
 
-- install the plugin for the VSCode menu
-- set it as the default code formatter: `"editor.defaultFormatter": "esbenp.prettier-vscode"`
-- configure format on save: `"editor.formatOnSave": true`
+1. Install the [Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) from the VSCode menu
+2. Set it as the default code formatter:
+
+```json
+"editor.defaultFormatter": "esbenp.prettier-vscode",
+```
+
+2. Configure format on save:
+
+```json
+"editor.formatOnSave": true,
+```
 
 ### Husky
 
-See `.huskyrc`
+See [`.husky`](.husky/)
 
-It's nice that we can run our validate script to check if everything is going well in our project and we're not making any static mistakes.
+It's nice that we can run our validate script to check if everything is going well in our project and that we're not making any static mistakes.
 
-It would be good to run this script everytime before somebody commits any code to Git.
+It would be nicer to run this script everytime before somebody commits any code to Git. For that matter, We:
 
-For that matter:
-
-1. we install a package called `husky`.
-2. Add a "husky-install" script to your `package.json`
+1. Install a package called [`husky`](https://github.com/typicode/husky).
+2. Add a `husky-install` script to your [`package.json`](package.json):
 
 ```json
 "script": {
@@ -102,19 +104,18 @@ For that matter:
 ```
 
 3. Run `npm run husky-install`
-4. Add a pre-commit hook
-
-```
+4. Add a pre-commit hook to run the validate script with the following command:
+```console
 npx husky add .husky/pre-commit "npm run validate"
 ```
 
-### Lintstaged
+### Lintstaged (Optional)
 
-See `.lintstagedrc`
+See [`.lintstagedrc`](.lintstagedrc)
 
-In case we don't have an editor with an integrated format on save functionality, we can use a tool called Lintstaged to rewrite our files before a commit.
+In case we don't have an editor with an integrated format on save functionality, we can use a tool called [Lintstaged](https://github.com/okonet/lint-staged#readme) to rewrite our files before a commit.
 
-Simply add `lintstaged` into the precommit command and configure it with a `.lintstagedrc`.
+Simply add `lintstaged` into the precommit command of Husky and configure it with a [`.lintstagedrc`](.lintstagedrc).
 
 ## Jest
 
