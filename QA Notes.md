@@ -57,7 +57,7 @@ Tool configuration:
 npx eslint . --fix
 ```
 
-#### Prettier
+#### **Prettier**
 
 We use [`Prettier`](https://prettier.io/) to format our code.
 
@@ -98,13 +98,19 @@ It would be nicer to run this script everytime before somebody commits any code 
 ```json
 "script": {
   ...,
-  "husky-install": "husky install,
+  "husky-install": "husky install",
   ...
 }
 ```
 
-3. Run `npm run husky-install`
+3. Run the `husky-install` script:
+
+```console
+npm run husky-install
+```
+
 4. Add a pre-commit hook to run the validate script with the following command:
+
 ```console
 npx husky add .husky/pre-commit "npm run validate"
 ```
@@ -117,8 +123,188 @@ In case we don't have an editor with an integrated format on save functionality,
 
 Simply add `lintstaged` into the precommit command of Husky and configure it with a [`.lintstagedrc`](.lintstagedrc).
 
-## Jest
+## Automated tests
 
-- Install Jest through NPM or Yarn
-- Add a test script
-- Update the validate script to also run the test script
+### Install & Run Jest
+
+- Install [Jest](https://jestjs.io/) through NPM or Yarn as a dev dependency
+
+```console
+npm install --save-dev jest
+```
+
+- Add a `test` script to your [`package.json`](package.json). We will get into the habit of always running our test with code coverage by adding the flag `--coverage`
+
+```json
+"scripts": {
+  ...,
+  "test": "jest --coverage"
+}
+```
+
+- If necessary, update the validate script to also run the test script
+- Run Jest
+
+```console
+npm run test
+```
+
+If we don't have a test in our directory, we will have an ouput similar to this one:
+
+```console
+> ci-test@1.0.0 test
+> jest --coverage
+
+No tests found, exiting with code 1
+Run with `--passWithNoTests` to exit with code 0
+In /Users/jlmbaka/dev/ci-test
+  9 files checked.
+  testMatch: **/__tests__/**/*.[jt]s?(x), **/?(*.)+(spec|test).[tj]s?(x) - 0 matches
+  testPathIgnorePatterns: /node_modules/ - 9 matches
+  testRegex:  - 0 matches
+Pattern:  - 0 matches
+```
+
+### Écrivons notre premier test unitaire
+
+On peut voir dans l'output précédent que Jest recherche les tests dans les fichiers et dossiers correspondant à une convention de nomenclature spécifique:
+
+- Dossier: `__tests__/`
+- Fichiers: `*test.js` ou `*.spec.js`
+
+Dans notre dossier source, nous allons créer un fichier `math.test.js`:
+
+```javascript
+test("it works!", () => {});
+```
+
+Lancer les tests avec le script `test`
+
+```console
+% npm t
+
+> ci-test@1.0.0 test
+> jest --coverage
+
+ PASS  src/math.test.js
+  ✓ it works! (1 ms)
+
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------|---------|----------|---------|---------|-------------------
+All files |       0 |        0 |       0 |       0 |
+----------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        2.393 s
+Ran all test suites.
+```
+
+Ça fonctionne!
+
+En résumé, pour écrire notre premier test unitaire, nous avons fait ceci :
+
+- installer Jest et ajouter un script qui s'appelle `test`
+- ajouter un fichier de test à notre projet et défini un premier test
+- appeler le script `test` pour faire tourner Jest
+
+### Tutoriel
+
+TODO
+
+- Introduce more branches into generateText. This will allow us to see coverage in working.
+- Create a depo for this tutorial
+
+#### Context
+
+https://www.youtube.com/watch?v=r9HdJ8P6GQI
+
+#### **Unit tests**
+
+Code:
+
+- Start: https://github.com/academind/js-testing-introduction/tree/starting-setup
+- End: https://github.com/academind/js-testing-introduction/tree/unit-tests
+
+Steps:
+
+- We will test `util.js/generateText`. Why this function ? Because itt doesn't have any dependencies: It does not call other functions, does not reach for the web, etc.
+- Introduce a bug into `generateText`
+- Create `util.test.js` and write a first test to expect the correct result for generateText
+- Run `npm t`: as a result of the bug, unit tests will fail
+- Correct the code so that the test passes
+- Triangulate: ensure that it works for other cases. e.g. in this state, the return value of `generateText` could be hardcoded and the test would pass. Therefore, write more tests! Test every branches to have a good coverage!
+
+#### **Integration Tests**
+
+Code:
+
+- Start: https://github.com/academind/js-testing-introduction/tree/unit-tests
+- End: https://github.com/academind/js-testing-introduction/tree/integration-test
+
+Steps:
+
+1. Explore `adduser` in `app.js`:
+
+- It's not a good candidate for an integration test because it does not really return any value and it's pretty convoluted.
+- Moreover, it does several things, which is not clean. We should start first by refactoring this function so that it's broken down into several functions.
+
+2. Refactor `addUser`:
+
+- move validation code (lines [15:20]) to a function called `checkAndGenerate(name, age)` in `utils.js`
+- replace the cut code by a call to `checkAndGenerate` in `app.js`
+
+3. Test `checkAndGenerate`:
+
+- Use same expectation as before
+- Introduce some bugs to show why integration tests are important:
+  - All units could be working but if they are combined incorrectly, you could still have bugs. This is why integration tests are necessary.
+  - Unit tests couldn't do the job on their own.
+
+#### **E2E Tests**
+
+TODO
+
+#### **Transpile Modules with Babel in Jest Tests**
+
+TODO
+
+#### **Testing Glossary**
+
+Access it through this link (PDF):
+
+[Essential Testing Glossary](files/Print_Glossary_A4.pdf)
+
+## Contineous Integration
+
+### Github
+
+- On the Github of your project, go to `Settings > Branches`
+- Under `Branch protection rules`, click `Add Rule` button. This will open a window of the same name.
+- Complete the `Branch name pattern` e.g. `master`
+- Under `Protect matching branches`, check the following options:
+  - `Require status checks to pass before merging` as well as with the `Require branches to be up to date before merging` sub-option.
+  - Under
+  - `Include administrators`
+  - [Optional] Check `Require pull request reviews before merging` if you want to enforce pull-request review before merging
+- Save your configuration by click on the `Save Changes` button
+
+This will have the effect of requiring that your Github actions workflow returns successfully before merging into the protected branch e.g. `master`.
+
+#### Exemple Configurations
+
+[Example Config on Github](https://github.com/jlmbaka/contineous-integration-test/settings/branch_protection_rules/20346478)
+
+<details>
+  <summary>See Github configuration screnshot</summary>
+  <img src="images/github_config.png" alt="exemple config of github">
+</details>
+
+### Github Actions
+
+Voir la config dans [`.github/workflows/node.js.yml`](.github/workflows/node.js.yml)
+
+### Codecov
+
+### CircleCI (alternative to Github Actions)
