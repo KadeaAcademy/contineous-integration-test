@@ -399,7 +399,7 @@ TODO
 
 Access it through this link (PDF):
 
-[Essential Testing Glossary](files/Print_Glossary_A4.pdf)
+[Essential Testing Glossary](https://drive.google.com/file/d/1ArCKrJLBHPLlXnUBWwi0Gwrp6lAcxY4H/view?usp=sharing)
 
 ## 3. Contineous Integration
 
