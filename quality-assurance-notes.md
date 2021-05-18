@@ -14,7 +14,7 @@
 
 ## 1. Static Testing
 
-Our goal is to have a standard configuration for static testing (lint, formating, and automated testing) setup that validates our project when we are coding (displays & warn us of errors) and runs as a validation step before each commit.
+Our goal is to have a standard configuration for static testing (lint, formating, and automated testing) that validates our project when we are coding (displays, warn us of errors and suggests fixes) and runs as a validation step before each commit.
 
 The same validation configuration will be run in our [Continuous Integration pipeline](##-3.-contineous-integration).
 
@@ -67,7 +67,7 @@ rename QA Notes.md => quality-assurance-notes.md (72%)
 Install the necessary dependencies with:
 
 ```console
-npm install --save-dev eslint eslint-config-prettier husky lint-staged npm-run-all prettier eslint-plugin-jest @babel/preset-env
+npm install --save-dev eslint eslint-config-prettier husky npm-run-all prettier eslint-plugin-jest @babel/preset-env
 ```
 
 ### Scripts
@@ -100,22 +100,24 @@ See [`.eslintrc`](.eslintrc)
 
 We install [ESLint](https://eslint.org/) with NPM or Yarn as a dev dependency (see [Dev Dependencies](###dev-dependencies)).
 
-The default configuration for ESLint is that they are going to parse your files as if they are Ecmascript 5. However, our file are written in the latest version of JS. Therefore, we need configure ESLint to parse our files properly.
+The default configuration for ESLint is that they are going to parse your files as if they are Ecmascript 5. However, our files are written in the latest version of JS. Therefore, we need configure ESLint to parse our files properly.
 
-In summary, we configure ESlint on:
+**VS Code Plugin**:
 
-1. the type of Javascript it's going to parse
-2. the ESLint built-in recommended rules configuration (`"extends":`) and specify/override some of them in `"rules":`
-3. the environment where the javascript is going to run
-
-Tool configuration:
-
-1. Install ESlint on your tool e.g. VSCode (it gives you highlights and fixes options)
+1. Install [ESlint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) on VSCode to get highlights and fixes options according to your config.
 2. You can also get auto fixes by running the following command:
 
 ```console
 npx eslint . --fix
 ```
+
+**Summary**
+In summary, we configure ESlint:
+
+1. the type of Javascript it's going to parse
+2. the ESLint built-in recommended rules configuration (`"extends":`) and specify/override some of them in `"rules":`
+3. the environment where the javascript is going to run
+4. on VSCode
 
 #### **Prettier**
 
@@ -186,7 +188,7 @@ Nous complèterons cette configuration à l'[étape suivante](##-2.-unit,-integr
 
 ## 2. Unit, Integration, E2E testing
 
-### Install & Run Jest
+### Install & run Jest
 
 - Install [Jest](https://jestjs.io/) through NPM or Yarn as a dev dependency
 
@@ -334,7 +336,7 @@ Steps:
 Code & Content:
 
 Tutoriel officel React Testing Library
-https://testing-library.com/docs/react-testing-library/example-intro
+https://testing-library.com/docs/react-testing-library/example-intro#system-under-test
 
 ou
 
