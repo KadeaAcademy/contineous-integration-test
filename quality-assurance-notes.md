@@ -1,6 +1,6 @@
 # Quality Assurance Notes
 
-**Table of Content**
+**Table des matières**
 
 [1. Static Testing](##-1.-static-testing)
 
@@ -13,6 +13,54 @@
 ---
 
 ## 1. Static Testing
+
+Our goal is to have a standard configuration for static testing (lint, formating, and automated testing) setup that validates our project when we are coding (displays & warn us of errors) and runs as a validation step before each commit.
+
+The same validation configuration will be run in our [Continuous Integration pipeline](##-3.-contineous-integration).
+
+Example output after running a commit:
+
+```console
+> ci-test@1.0.0 validate
+> npm-run-all --parallel check-format lint test build
+
+> ci-test@1.0.0 check-format
+> npm run prettier -- --list-different
+
+> ci-test@1.0.0 lint
+> eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .
+
+> ci-test@1.0.0 build
+> babel src --out-dir dist
+
+> ci-test@1.0.0 test
+> jest --coverage
+
+> ci-test@1.0.0 prettier
+> prettier --ignore-path .gitignore --write "\*_/_.+(js|jsx|ts|tsx|json|css|html)" "--list-different"
+
+Successfully compiled 2 files with Babel (932ms).
+PASS dist/math.test.js
+PASS src/math.test.js
+----------|---------|----------|---------|---------|-------------------
+File | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------|---------|----------|---------|---------|-------------------
+All files | 100 | 100 | 100 | 100 |
+dist | 100 | 100 | 100 | 100 |
+math.js | 100 | 100 | 100 | 100 |
+src | 100 | 100 | 100 | 100 |
+math.js | 100 | 100 | 100 | 100 |
+----------|---------|----------|---------|---------|-------------------
+
+Test Suites: 2 passed, 2 total
+Tests: 10 passed, 10 total
+Snapshots: 0 total
+Time: 1.762 s
+Ran all test suites.
+[static_testing_notes 3005b28] Updates notes
+2 files changed, 118 insertions(+), 22 deletions(-)
+rename QA Notes.md => quality-assurance-notes.md (72%)
+```
 
 ### Dev Dependencies
 
@@ -134,6 +182,16 @@ In case we don't have an editor with an integrated format on save functionality,
 
 Simply add `lintstaged` into the precommit command of Husky and configure it with a [`.lintstagedrc`](.lintstagedrc).
 
+### Résumé
+
+En résumé, pour configurer les tests statics, nous avons:
+
+- Installé les dépendences dev nécessaires
+- Avons ajouté les scripts nécessaire
+- Effectué les configuration nécessaires (ESLint, Prettier, Babel, et Husky)
+
+Nous complèterons cette configuration à l'[étape suivante](##-2.-unit,-integration,-E2E-testing) avec des tests automatisés.
+
 ## 2. Unit, Integration, E2E testing
 
 ### Install & Run Jest
@@ -214,6 +272,7 @@ Ran all test suites.
 
 Nous venons d'écrire notre premier test!
 
+**Résumé**
 En résumé, pour écrire notre premier test unitaire, nous avons fait ceci :
 
 - installer Jest et ajouter un script qui s'appelle `test`
