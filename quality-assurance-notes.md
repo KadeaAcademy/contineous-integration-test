@@ -14,7 +14,9 @@
 
 ## 1. Static Testing
 
-Our goal is to have a standard configuration for static testing (lint, formating, and automated testing) that validates our project when we are coding (displays, warn us of errors and suggests fixes) and runs as a validation step before each commit.
+Our goal is to have a standard configuration for static testing (lint and formating) that validates our project when we are coding (displays, warn us of errors and suggests fixes) and runs as a validation step before each commit.
+
+This configuration will then be extended to include unit, integration and end-to-end testing.
 
 The same validation configuration will be run in our [Continuous Integration pipeline](##-3.-contineous-integration).
 
@@ -102,7 +104,7 @@ We install [ESLint](https://eslint.org/) with NPM or Yarn as a dev dependency (s
 
 The default configuration for ESLint is that they are going to parse your files as if they are Ecmascript 5. However, our files are written in the latest version of JS. Therefore, we need configure ESLint to parse our files properly.
 
-**VS Code Plugin**:
+_VS Code Plugin_
 
 1. Install [ESlint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) on VSCode to get highlights and fixes options according to your config.
 2. You can also get auto fixes by running the following command:
@@ -111,8 +113,9 @@ The default configuration for ESLint is that they are going to parse your files 
 npx eslint . --fix
 ```
 
-**Summary**
-In summary, we configure ESlint:
+_Summary_
+
+In summary, we configure ESlint with:
 
 1. the type of Javascript it's going to parse
 2. the ESLint built-in recommended rules configuration (`"extends":`) and specify/override some of them in `"rules":`
