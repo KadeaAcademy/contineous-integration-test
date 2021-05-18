@@ -1,10 +1,22 @@
-# Testing
+# Quality Assurance Notes
 
-## Static Testing
+**Table of Content**
+
+[1. Static Testing](##-1.-static-testing)
+
+[2. Unit, Intégration, E2E testing](##-2.-unit,-Integration,-E2E-testing)
+
+[3. Contineous Integration](##-3.-contineous-integration)
+
+[4. Code Review](##-4.-code-review)
+
+---
+
+## 1. Static Testing
 
 ### Dev Dependencies
 
-Install the dependencies with:
+Install the necessary dependencies with:
 
 ```console
 npm install --save-dev eslint eslint-config-prettier husky lint-staged npm-run-all prettier eslint-plugin-jest @babel/preset-env
@@ -98,8 +110,7 @@ It would be nicer to run this script everytime before somebody commits any code 
 ```json
 "script": {
   ...,
-  "husky-install": "husky install",
-  ...
+  "husky-install": "husky install"
 }
 ```
 
@@ -123,7 +134,7 @@ In case we don't have an editor with an integrated format on save functionality,
 
 Simply add `lintstaged` into the precommit command of Husky and configure it with a [`.lintstagedrc`](.lintstagedrc).
 
-## Automated tests
+## 2. Unit, Integration, E2E testing
 
 ### Install & Run Jest
 
@@ -181,7 +192,7 @@ test("it works!", () => {});
 Lancer les tests avec le script `test`
 
 ```console
-% npm t
+% npm test
 
 > ci-test@1.0.0 test
 > jest --coverage
@@ -201,7 +212,7 @@ Time:        2.393 s
 Ran all test suites.
 ```
 
-Ça fonctionne!
+Nous venons d'écrire notre premier test!
 
 En résumé, pour écrire notre premier test unitaire, nous avons fait ceci :
 
@@ -211,12 +222,7 @@ En résumé, pour écrire notre premier test unitaire, nous avons fait ceci :
 
 ### Tutoriel
 
-TODO
-
-- Introduce more branches into generateText. This will allow us to see coverage in working.
-- Create a depo for this tutorial
-
-#### Context
+#### **Context**
 
 https://www.youtube.com/watch?v=r9HdJ8P6GQI
 
@@ -262,11 +268,79 @@ Steps:
   - All units could be working but if they are combined incorrectly, you could still have bugs. This is why integration tests are necessary.
   - Unit tests couldn't do the job on their own.
 
-#### **E2E Tests**
+#### Code Coverage
 
-TODO
+- Introduce branches into `generateText` or any other function
+- This will allow us to see coverage in working
+- Write tests to increase the coverage
 
 #### **Transpile Modules with Babel in Jest Tests**
+
+- Configure Babel to transpile Tests (see Babel's configuration in [Static testing](###-babel))
+
+#### **React**
+
+Code & Content:
+
+Tutoriel officel React Testing Library
+https://testing-library.com/docs/react-testing-library/example-intro
+
+ou
+
+Traduire [projet](###-tutoriel) en React et Tester
+
+Steps:
+
+1. Install React Testing Library as a dev dependency
+
+```console
+npm install --save-dev @testing-library/react
+```
+
+2. Follow the official tutorial
+
+https://testing-library.com/docs/react-testing-library/example-intro
+
+3. General Process:
+
+- Imports
+- Mock
+- Arrange
+- Act
+- Assert
+
+3. Cas Spécifiques: Tester l'usabilité d'un formulaire
+
+- Install [Jest-Axe](https://github.com/nickcolley/jest-axe):
+
+```console
+npm install --save-dev jest-axe
+```
+
+- Example:
+
+```javascript
+import "jest-axe/extend-expect";
+import React from "react";
+import { render } from "@ testing-libary/react"
+import { axe } from "jest-axe";
+
+const Form = () => (
+  <form>
+    <input placeholder="email">
+  </form>
+);
+
+test("the form is accessible", async () => {
+  const container = render(<Form />);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+4. Specifique Cases: à déterminer
+
+#### **E2E Tests**
 
 TODO
 
@@ -276,16 +350,16 @@ Access it through this link (PDF):
 
 [Essential Testing Glossary](files/Print_Glossary_A4.pdf)
 
-## Contineous Integration
+## 3. Contineous Integration
 
 ### Github
 
-- On the Github of your project, go to `Settings > Branches`
+- On your project's Github, go to `Settings > Branches`
 - Under `Branch protection rules`, click `Add Rule` button. This will open a window of the same name.
 - Complete the `Branch name pattern` e.g. `master`
 - Under `Protect matching branches`, check the following options:
   - `Require status checks to pass before merging` as well as with the `Require branches to be up to date before merging` sub-option.
-  - Under
+  - Select the required status checks under `Status checks that are required`
   - `Include administrators`
   - [Optional] Check `Require pull request reviews before merging` if you want to enforce pull-request review before merging
 - Save your configuration by click on the `Save Changes` button
@@ -294,10 +368,8 @@ This will have the effect of requiring that your Github actions workflow returns
 
 #### Exemple Configurations
 
-[Example Config on Github](https://github.com/jlmbaka/contineous-integration-test/settings/branch_protection_rules/20346478)
-
 <details>
-  <summary>See Github configuration screnshot</summary>
+  <summary>View Github example configuration</summary>
   <img src="images/github_config.png" alt="exemple config of github">
 </details>
 
@@ -307,4 +379,27 @@ Voir la config dans [`.github/workflows/node.js.yml`](.github/workflows/node.js.
 
 ### Codecov
 
+- No matter the CI service you're using (Github Actions, Travis, CircleCi, etc.), it will most certainly work well with [Codecov]()
+- Open our CI configuration file, in this case Github Actions' [config file](.github/workflows/node.js.yml)
+- Add commands to report our codecoverage through Codecov just after the command that runs our tests (`npm run validate` in this case on [line 28](.github/workflows/node.js.yml#L28)):
+
+```
+      - name: codecov
+        run: bash <(curl -s https://codecov.io/bash) -F $CIRCLE_JOB
+```
+
+- Signup for an account on Codecov and follow the instructions
+- Add the [Codecov App](https://github.com/apps/codecov) to your Github project
+- The codecoverage will be reported every time your workflow runs
+- You can also inspect the progression of your project's code coverage on [Codecov's dashboard](https://app.codecov.io/gh/jlmbaka/contineous-integration-test)
+
 ### CircleCI (alternative to Github Actions)
+
+- Ceux qui sont interessés peuvent eux-meme comprendre comment configurer [CircleCi](https://circleci.com/) (étapes similaires à Github Action)
+- Exemple d'une configuration qui fonctionne pour les projets NodeJS:
+
+  https://github.com/jlmbaka/contineous-integration-test/blob/master/.circleci/config.yml
+
+## 4. Code Review
+
+Voir les [slides](https://docs.google.com/presentation/d/1AXDmVB-KbLgL7ufU5clCC012GzhB4_9fFzljYqNXX_4/edit?usp=sharing)
