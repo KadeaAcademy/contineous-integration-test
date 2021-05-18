@@ -174,14 +174,6 @@ npm run husky-install
 npx husky add .husky/pre-commit "npm run validate"
 ```
 
-### Lintstaged (Optional)
-
-See [`.lintstagedrc`](.lintstagedrc)
-
-In case we don't have an editor with an integrated format on save functionality, we can use a tool called [Lintstaged](https://github.com/okonet/lint-staged#readme) to rewrite our files before a commit.
-
-Simply add `lintstaged` into the precommit command of Husky and configure it with a [`.lintstagedrc`](.lintstagedrc).
-
 ### Résumé
 
 En résumé, pour configurer les tests statics, nous avons:
